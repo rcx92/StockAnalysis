@@ -1,0 +1,12 @@
+*.cache
+*.exe
+*.lastbuildstate
+/Release
+/Debug
+/MergeData/bin/Debug
+/*.opensdf
+/StockAnalysis/Debug
+/StockAnalysis/Release
+/*.suo
+/MergeData/obj/Debug
+/*.sdf
