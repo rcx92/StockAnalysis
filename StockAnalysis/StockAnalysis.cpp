@@ -175,7 +175,7 @@ bool cmpProcessedDataByPB(const ProcessedData &d1, const ProcessedData d2){
 
 bool decideSell(double cost, double nowPrice, int gapDay){
 	if (gapDay <= 2 && nowPrice > cost * 1.01) return true;
-	if (nowPrice > cost * 1.0303) return true;
+	if (nowPrice > cost * 1.030) return true;
 	if (gapDay > 30 && nowPrice > cost * 0.9) return true;
 	if (gapDay > 50) return true;
 	return false;
@@ -188,9 +188,9 @@ ProcessedData getProcessData(DailyData ori, DailyData pre){
 	result.PE = rate * ori.pe_ttm * rate;
 	result.PB = rate * ori.pb * rate;
 	result.change = rate * (1.0 + ori.change) - 1.0;
-	result.PE = pre.pe_ttm;
-	result.PB = pre.pb;
-	result.change = pre.change;
+	//result.PE = pre.pe_ttm;
+	//result.PB = pre.pb;
+	//result.change = pre.change;
 	result.index = ori.tag;
 	result.tag = 0;
 	return result;
@@ -228,7 +228,7 @@ string getDigit(string s){
 }
 
 void runStratagy(){
-	FILE *output = fopen("output.txt", "w");
+	FILE *output = fopen("..\\output.txt", "w");
 	double cash = 10000.0;
 	double cost = 0.0, quantity = 0.0;
 	int buyTime = -1;
@@ -270,6 +270,7 @@ void runStratagy(){
 			if (sellIndex != -1){
 				ProcessedData processedData = getProcessData(data[sellIndex][heads[sellIndex]], data[sellIndex][heads[sellIndex]]);
 				if (decideSell(cost, processedData.truePrice, i - buyTime)){
+					fprintf(output, "%s Sell %s\n", getDigit(dates[i]).c_str(), getDigit(boughtCode).c_str());
 					cash = processedData.truePrice * quantity * 0.998;
 					buyTime = -1;
 					boughtCode = "";
@@ -280,6 +281,7 @@ void runStratagy(){
 		}
 		if (bestBuy != -1 && boughtCode == "" && bestBuy != sellIndex){
 			ProcessedData processedData = getProcessData(data[bestBuy][heads[bestBuy]], data[bestBuy][heads[bestBuy]]);
+			fprintf(output, "%s Buy %s\n", getDigit(dates[i]).c_str(), getDigit(data[bestBuy][heads[bestBuy]].code).c_str());
 			quantity = cash / processedData.truePrice;
 			cost = processedData.truePrice;
 			buyTime = i;

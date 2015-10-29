@@ -10,3 +10,5 @@
 /*.suo
 /MergeData/obj
 /*.sdf
+/CheckMethod/Debug
+/CheckMethod/Release
