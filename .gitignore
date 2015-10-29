@@ -3,10 +3,10 @@
 *.lastbuildstate
 /Release
 /Debug
-/MergeData/bin/Debug
+/MergeData/bin
 /*.opensdf
 /StockAnalysis/Debug
 /StockAnalysis/Release
 /*.suo
-/MergeData/obj/Debug
+/MergeData/obj
 /*.sdf

@@ -188,9 +188,9 @@ ProcessedData getProcessData(DailyData ori, DailyData pre){
 	result.PE = rate * ori.pe_ttm * rate;
 	result.PB = rate * ori.pb * rate;
 	result.change = rate * (1.0 + ori.change) - 1.0;
-	//result.PE = pre.pe_ttm;
-	//result.PB = pre.pb;
-	//result.change = pre.change;
+	result.PE = pre.pe_ttm;
+	result.PB = pre.pb;
+	result.change = pre.change;
 	result.index = ori.tag;
 	result.tag = 0;
 	return result;
@@ -215,11 +215,20 @@ int compareStockInDay(vector<DailyData> &stock, vector<DailyData> &pre){
 			}
 		}
 	}
-	if (bestChange > 0) bestIndex = -1;
+	//if (bestChange > 0) bestIndex = -1;
 	return bestIndex;
 }
 
+string getDigit(string s){
+	string result = "";
+	for (int i = 0; i < s.size(); ++i)if (isdigit(s[i])){
+		result += s[i];
+	}
+	return result;
+}
+
 void runStratagy(){
+	FILE *output = fopen("output.txt", "w");
 	double cash = 10000.0;
 	double cost = 0.0, quantity = 0.0;
 	int buyTime = -1;
@@ -282,6 +291,7 @@ void runStratagy(){
 		printf("Date %s Cash = %.3f Total = %.3f Has %s Quantity = %.3f Cost = %.3f\n", dates[i].c_str(), cash, total, boughtCode.c_str(), quantity, cost);
 		//getchar();
 	}
+	fclose(output);
 }
 
 int _tmain(int argc, _TCHAR* argv[])
